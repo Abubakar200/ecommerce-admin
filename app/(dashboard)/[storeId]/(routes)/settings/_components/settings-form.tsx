@@ -22,10 +22,12 @@ import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { ApiAlert } from "@/components/ui/api-alert";
+import { useOrigin } from "@/hooks/use-origin";
 
 interface SettingsFormProps {
   initialData: Store;
 }
+
 const formSchema = z.object({
   name: z.string().min(1),
 });
@@ -37,10 +39,14 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
     resolver: zodResolver(formSchema),
     defaultValues: initialData,
   });
+
   const parmas = useParams();
   const router = useRouter();
+  const origin = useOrigin()
+
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const onSubmit = async (data: formValues) => {
     try {
       setLoading(true);
@@ -53,6 +59,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       setLoading(false);
     }
   };
+
   const onDelete = async () => {
     try {
       setLoading(true);
@@ -67,6 +74,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       setOpen(false);
     }
   };
+
   return (
     <>
       <AlertModal
