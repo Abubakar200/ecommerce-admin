@@ -26,9 +26,9 @@ model Store {
 }
 
 model BillBoard {
-  id         String     @id @default(uuid())
-  storeId    String
-  store      Store      @relation("StoreToBillboard", fields: [storeId], references: [id])
+  id         String      @id @default(uuid())
+  storeId    String   
+  store      Store @relation("StoreToBillboard", fields: [storeId], references: [id])
   label      String
   imageUrl   String
   categories Category[]
@@ -39,24 +39,24 @@ model BillBoard {
 }
 
 model Category {
-  id          String    @id @default(uuid())
-  storeId     String
+ id         String      @id @default(uuid())
+  storeId     String   
   store       Store     @relation("StoreToCategory", fields: [storeId], references: [id])
-  billboardId String
+  billboardId String    
   billboard   BillBoard @relation(fields: [billboardId], references: [id])
-  product     Product[] @relation("CategoryToProduct")
+  product     Product[]  @relation("CategoryToProduct")
   name        String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
   @@index([storeId])
   @@index([billboardId])
 }
 
 model Size {
-  id        String    @id @default(uuid())
-  storeId   String
-  store     Store     @relation("StoreToSize", fields: [storeId], references: [id])
+id         String      @id @default(uuid())
+  storeId   String  
+  store     Store    @relation("StoreToSize", fields: [storeId], references: [id])
   name      String
   value     String
   createdAt DateTime  @default(now())
@@ -67,9 +67,9 @@ model Size {
 }
 
 model Color {
-  id        String    @id @default(uuid())
-  storeId   String
-  store     Store     @relation("StoreToColor", fields: [storeId], references: [id])
+  id         String      @id @default(uuid())
+  storeId   String   
+  store     Store    @relation("StoreToColor", fields: [storeId], references: [id])
   name      String
   value     String
   createdAt DateTime  @default(now())
@@ -81,18 +81,18 @@ model Color {
 
 model Product {
   id         String      @id @default(uuid())
-  storeId    String
-  store      Store       @relation("StoreToProduct", fields: [storeId], references: [id])
-  categoryId String
-  category   Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
+  storeId    String      
+  store      Store      @relation("StoreToProduct", fields: [storeId], references: [id])
+  categoryId String      
+  category   Category   @relation("CategoryToProduct", fields: [categoryId], references: [id])
   name       String
   price      Decimal
   isFeatured Boolean     @default(false)
   isArchived Boolean     @default(false)
-  sizeId     String
-  size       Size        @relation(fields: [sizeId], references: [id])
-  colorId    String
-  color      Color       @relation(fields: [colorId], references: [id])
+  sizeId     String      
+  size       Size       @relation(fields: [sizeId], references: [id])
+  colorId    String      
+  color      Color      @relation(fields: [colorId], references: [id])
   images     Image[]
   orderItems OrderItem[]
   createdAt  DateTime    @default(now())
@@ -105,9 +105,9 @@ model Product {
 }
 
 model Image {
-  id        String   @id @default(uuid())
-  productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id         String      @id @default(uuid())
+  productId String   
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   url       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -116,9 +116,9 @@ model Image {
 }
 
 model Order {
-  id        String      @id @default(uuid())
-  storeId   String
-  store     Store       @relation("StoreToOrder", fields: [storeId], references: [id])
+  id         String      @id @default(uuid())
+  storeId   String      
+  store     Store      @relation("StoreToOrder", fields: [storeId], references: [id])
   orderItem OrderItem[]
   isPaid    Boolean     @default(false)
   phone     String      @default("")
@@ -131,10 +131,10 @@ model Order {
 }
 
 model OrderItem {
-  id        String  @id @default(uuid())
-  orderId   String
+  id         String      @id @default(uuid())
+  orderId   String   
   order     Order   @relation(fields: [orderId], references: [id])
-  productId String
+  productId String   
   product   Product @relation(fields: [productId], references: [id])
 
   @@index([orderId])
